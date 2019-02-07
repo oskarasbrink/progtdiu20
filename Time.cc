@@ -2,6 +2,7 @@
 // som deklarerats i Time.h
 #include "Time.h"
 #include <stdexcept>
+#include <ios>
 #include <string>
 #include <sstream>
 #include <iostream>
@@ -73,7 +74,7 @@ string Time::to_string(bool b){
   
   ss<<mini(sekund);
   ss>>s;
-  s.append(str);
+  s.append(str); //?
   return s;
 }
 
@@ -86,7 +87,7 @@ string Time::mini(int val)const{
   return sss.str();
 }
 
-Time::operator string(){
+Time::operator string(){ //??
   return to_string();
 }
 
@@ -134,18 +135,46 @@ Time& Time::operator--(){
   return *this;
 }
 
-Time Time::operator++(int){
+Time Time::operator++(int){ // ??
   Time tmp{*this};
   *this=*this + 1;
   return tmp;
 }
-Time Time::operator--(int){
+Time Time::operator--(int){ // ??
   Time tmp{*this};
   *this=*this - 1;
   return tmp;
 }
 
+ bool operator<(Time const& lhs, Time const& rhs){
+  
+    if((lhs.hour()*3600+lhs.minute()*60+lhs.second())<(rhs.hour()*3600+rhs.minute()*60+rhs.second())){
+          cout << "asd";
+        return true;
+      
+    }else{
+        cout <<" asd2";
+        return false;
+    }
+}
+bool operator>(Time const& lhs, Time const& rhs){
+    return (rhs<lhs);
+}
 
+bool operator==(Time const& lhs, Time const& rhs){
+    return (!(lhs<rhs) && !(lhs>rhs));
+}
+
+bool operator!=(Time const& lhs, Time const& rhs){
+    return !(lhs==rhs);
+}
+
+bool operator>=(Time const& lhs, Time const& rhs){
+    return lhs>rhs||lhs==rhs;
+}
+bool operator<=(Time const& lhs,Time const& rhs){
+    return lhs<rhs||lhs==rhs;
+}
 
 ostream& operator<<(ostream & lhs,Time const& rhs){
   Time temp = rhs;
@@ -153,3 +182,23 @@ ostream& operator<<(ostream & lhs,Time const& rhs){
 
   return lhs;
 }
+ istream& operator>>(istream & lhs,Time & rhs){
+    int temph,tempm,temps;
+    char c;
+    lhs>>temph>>c>>tempm>>c>>temps;
+     try {
+          rhs=Time(temph,tempm,temps);
+     }
+     catch(invalid_argument){
+         lhs.setstate(ios::failbit);
+     }
+    
+    return lhs;
+}
+
+    //
+
+    
+   
+
+

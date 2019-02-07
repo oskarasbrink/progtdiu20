@@ -7,8 +7,8 @@
 
 using namespace std;
 
-// här lägger ni era testfall. 
-// Jobba enligt TDD; 
+// här lägger ni era testfall.
+// Jobba enligt TDD;
 //  1. Lägg till testfall
 //  2. Testa
 //  3. Lägg till (minsta möjliga) implementation
@@ -18,7 +18,7 @@ using namespace std;
 TEST_CASE ("Default constructor")
 {
     Time t;
-
+    
     CHECK(t.hour() == 0);
     CHECK(t.minute() == 0);
     CHECK(t.second() == 0);
@@ -52,7 +52,7 @@ TEST_CASE ("String constructor")
     CHECK(t.hour() == 12);
     CHECK(t.minute() == 23);
     CHECK(t.second() == 12);
-
+    
     SECTION ("Throws as well")
     {
         CHECK_THROWS( Time{"02:11:74"} );
@@ -100,42 +100,68 @@ TEST_CASE ("Output operator" )
     
 }
 TEST_CASE ("plus operator"){
-  
-  Time DAVID{12,43,42};
-  CHECK( (DAVID+2).second()==44);
-  CHECK( (DAVID+1337).second()==1);
-  CHECK(DAVID.minute()==6);
-  CHECK(DAVID.hour()==13);
+    
+    Time DAVID{12,43,42};
+    CHECK( (DAVID+2).second()==44);
+    CHECK( (DAVID+1337).second()==1);
+    CHECK(DAVID.minute()==6);
+    CHECK(DAVID.hour()==13);
 }
 
 TEST_CASE("Minus operator"){
-
-  Time DAVID{12,43,42};
-  CHECK( (DAVID-2).second()==40);
-  CHECK( (DAVID-1337).second()==23);
-  CHECK(DAVID.minute()==21);
-  CHECK(DAVID.hour()==12);
-  
+    
+    Time DAVID{12,43,42};
+    CHECK( (DAVID-2).second()==40);
+    CHECK( (DAVID-1337).second()==23);
+    CHECK(DAVID.minute()==21);
+    CHECK(DAVID.hour()==12);
+    
 }
 TEST_CASE("INK OCH DEC TEST"){
-
-  Time Oskar{13,37,59};
-  ++Oskar;
-  CHECK( Oskar.second()==0 );
-  CHECK( Oskar.minute()==38 );
-  --Oskar;
-  CHECK( Oskar.second()==59);
-  CHECK( Oskar.minute()==37);
-  Time Davva{23,59,59};
-  CHECK( Davva++.second()==59 );
-  CHECK( Davva.second()==0 );
-  CHECK( Davva.minute()==0 );
-  CHECK( Davva.hour()==0 );
-  
-  CHECK( Davva--.second()==0 );
-  CHECK( Davva.second()==59 );
-  CHECK( Davva.minute()==59);
-  CHECK( Davva.hour()==23);
+    
+    Time Oskar{13,37,59};
+    ++Oskar;
+    CHECK( Oskar.second()==0 );
+    CHECK( Oskar.minute()==38 );
+    --Oskar;
+    CHECK( Oskar.second()==59);
+    CHECK( Oskar.minute()==37);
+    Time Davva{23,59,59};
+    CHECK( Davva++.second()==59 );
+    CHECK( Davva.second()==0 );
+    CHECK( Davva.minute()==0 );
+    CHECK( Davva.hour()==0 );
+    
+    CHECK( Davva--.second()==0 );
+    CHECK( Davva.second()==59 );
+    CHECK( Davva.minute()==59);
+    CHECK( Davva.hour()==23);
 }
-
+TEST_CASE("COMP OPERATORS"){
+    Time Oskar{12,12,12};
+    Time Davva{13,13,13};
+    
+    CHECK_FALSE( Davva<Oskar);
+    CHECK_FALSE(Oskar>Davva);
+    Time Oskar2{13,13,13};
+    CHECK(Oskar2==Davva);
+    CHECK_FALSE(Oskar>=Davva);
+    CHECK(Oskar<=Davva);
+    CHECK_FALSE(Oskar2!=Davva);
+    
+    
+    
+}
+TEST_CASE("STREAMS"){
+    string s = "12:10:57";
+    stringstream ss{s};
+    Time Davvamannen{};
+    //cout<<ss.str();
+    ss>>Davvamannen;
+    CHECK_FALSE(ss.fail());
+    CHECK(Davvamannen.to_string()=="12:10:57");
+    ss<<Davvamannen;
+    CHECK(ss.str()=="12:10:57");
+    
+}
 

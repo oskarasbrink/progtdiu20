@@ -19,6 +19,7 @@ class Time{
   bool is_am()const;
   std::string to_string(bool b=false);
   std::string mini(int val)const;
+    
 
   //operatorer
   operator std::string();
@@ -28,9 +29,25 @@ class Time{
   Time& operator--();
   Time operator++(int);
   Time operator--(int);
+
+   
+
+    
  private:
   //datamedlemmar
   int timme,minut,sekund;
 };
 std::ostream& operator<<(std::ostream & lhs, Time const& rhs);
+std::istream& operator>>(std::istream & lhs,Time & rhs);
+
+bool operator<(Time const& lhs,Time const& rhs);
+bool operator>(Time const& lhs, Time const& rhs);
+bool operator==(Time const& lhs, Time const& rhs);
+bool operator!=(Time const& lhs, Time const& rhs);
+bool operator>=(Time const& lhs, Time const& rhs);
+bool operator<=(Time const& lhs, Time const& rhs);
+
 #endif
+
+
+//
